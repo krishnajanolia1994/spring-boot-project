@@ -35,7 +35,7 @@ public class Controller {
 	public Employee create(@RequestBody Employee employee)
 	{
 		System.out.println(employee.getEmployer()+"  "+employee.getManager()
-		+"  "+employee.getName()+"  "+employee.getSalary());
+		+"  "+employee.getName()+"   "+employee.getSalary());
 		return employeeBo.saveEmployee(employee);
 	}
 	

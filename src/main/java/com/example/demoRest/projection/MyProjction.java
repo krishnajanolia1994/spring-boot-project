@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public interface MyProjction {
 	String getName();
 	
-	String getSurName();
+	String  getSurName();
 
 }

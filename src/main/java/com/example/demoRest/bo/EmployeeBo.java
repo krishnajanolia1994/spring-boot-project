@@ -47,7 +47,7 @@ public class EmployeeBo {
 	}
 
 	public List<Employee> getByName(String name) {
-		return repository.findByName(name);
+		return repository.findByName(name );
 	}
 
 	public List<Employee> getByNameLName(String name, String lName) {

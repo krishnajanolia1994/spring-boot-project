@@ -12,5 +12,7 @@ public class DemoRestApplication {
 		SpringApplication.run(DemoRestApplication.class, args);
 		System.out.println("hi ");
 
+
+		System.out.println("hfkjk ");
 	}
 }

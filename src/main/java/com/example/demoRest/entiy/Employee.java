@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class Employee {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty
 	@Column(name = "ID")
 	private Long id;

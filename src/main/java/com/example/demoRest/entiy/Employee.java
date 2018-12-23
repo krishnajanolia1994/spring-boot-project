@@ -92,7 +92,7 @@ public class Employee {
 
 	public void setSalary(Long salary) {
 		this.salary = salary ;
-		System.out.println("krishn");
+		System.out.println("krishna");
 	}
 
 

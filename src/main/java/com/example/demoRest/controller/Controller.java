@@ -43,6 +43,8 @@ public class Controller {
 	@GetMapping
 	public List<Employee> getAll()
 	{
+		System.out.println(" ");
+
 		List<Employee> listEmployee=null;
 	    listEmployee=employeeBo.getAll();
 //	    if(listEmployee==null)

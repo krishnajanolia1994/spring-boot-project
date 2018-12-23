@@ -30,6 +30,8 @@ public class EmployeeBo {
 		Employee employee2 = null;
 		if (employee != null) {
 			employee2 = new Employee();
+			System.out.println("hfkjk  ");
+
 			BeanUtils.copyProperties(employee, employee2);
 			repository.save(employee2);
 		}

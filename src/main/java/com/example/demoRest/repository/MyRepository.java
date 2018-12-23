@@ -16,7 +16,7 @@ public interface MyRepository extends CrudRepository<Employee, Long>{
 
 	List<Employee> findByNameOrSurName(String name, String lName);
 
-	List<Employee> findBySalaryBetween(Long salary1, Long salary2);
+	List<Employee>findBySalaryBetween(Long salary1, Long salary2);
 
 	List<Employee> findBySalaryLessThanEqual(Long salary1);
 

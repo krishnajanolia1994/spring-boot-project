@@ -92,8 +92,6 @@ public class Employee {
 
 	public void setSalary(Long salary) {
 		this.salary  = salary ;
-		this.salary = salary ;
-		System.out.println("krishna");
 	}
 
 

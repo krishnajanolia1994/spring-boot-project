@@ -12,6 +12,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.example.demoRest.entiy.Employee;
@@ -114,6 +116,10 @@ public class EmployeeBo {
 		
 		employees=query.getResultList();
 		return employees;
+	}
+
+	public Page<Employee> getAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 }

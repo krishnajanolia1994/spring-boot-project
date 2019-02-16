@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 
 import com.example.demoRest.entiy.Employee;
 import com.example.demoRest.projection.MyProjction;
 @Component
-public interface MyRepository extends CrudRepository<Employee, Long>{
+public interface MyRepository extends CrudRepository<Employee, Long> , PagingAndSortingRepository<Employee, Long>{
 	List<Employee> findByName(String name);
 
 	List<Employee> findByNameAndSurName(String name, String lName);

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demoRest.bo.EmployeeBo;
@@ -92,7 +91,14 @@ public class Controller {
 		list=employeeBo.getByNameLName(name,LName);
 		return list;
 	}
-	
+//	@RequestMapping("pradicate")
+//	@GetMapping
+//	public List<Employee> getPadicate(@QueryParam("name") String name,@QueryParam("LName") String LName)
+//	{
+//		List<Employee> list=null;
+//		list=employeeBo.getByPradicate(name,LName);
+//		return list;
+//	}
 	@RequestMapping("get_by_name_or_last_name")
 	@GetMapping
 	public List<Employee> getByNameOrLName(@QueryParam("name") String name,@QueryParam("LName") String LName)
@@ -175,11 +181,22 @@ public class Controller {
 		List<Object> projection=employeeBo.findByCriteria();
 		return projection;
 	}
+	@RequestMapping("specification")
+	@GetMapping
+	public List<Employee> getBySpecification(@QueryParam("name") String name,
+			@QueryParam("salary") Long salary)
+	{
+		return employeeBo.findBySpecification(name, salary);
+	}
+	
+	@RequestMapping("specification/and")
+	@GetMapping
+	public List<Employee> getBySpecificationNameAndSalary(@QueryParam("name") String name,
+			@QueryParam("salary") Long salary)
+	{
+		List<Employee> employees=employeeBo.findBySpecificationAndNameAndSalary(name, salary);
+		return employees;
+	}
 	
 	
-	
-	
-
-
-
 }

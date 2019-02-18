@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 //import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import com.example.demoRest.entiy.Employee;
@@ -27,7 +29,30 @@ public class EmployeeBo {
 
 	@Autowired
 	EntityManager entityManager;
+	
+	@SuppressWarnings("serial")
+	public static Specification<Employee> salaryLessThan(Long salary)
+	{
+		return new Specification<Employee>() {
 
+			@Override
+			public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+			
+				return criteriaBuilder.lessThan(root.get("salary"), salary);
+			}
+		};
+	}
+	 @SuppressWarnings("serial")
+	public static Specification<Employee> nameEqual(String name)
+	 {
+		 return new Specification<Employee>() {
+			
+			@Override
+			public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				return criteriaBuilder.equal(root.get("name"), name);
+			}
+		};
+	 }
 	public Employee saveEmployee(Employee employee) {
 		Employee employee2 = null;
 		if (employee != null) {
@@ -53,8 +78,7 @@ public class EmployeeBo {
 	}
 
 	public List<Employee> getByNameLName(String name, String lName) {
-		// TODO Auto-generated method stub
-		return repository.findByNameAndSurName(name, lName);
+ 		return repository.findByNameAndSurName(name, lName);
 	}
 
 	public List<Employee> getByNameOrLName(String name, String lName) {
@@ -121,5 +145,19 @@ public class EmployeeBo {
 	public Page<Employee> getAll(Pageable pageable) {
 		return repository.findAll(pageable);
 	}
+
+//	public List<Employee> getByPradicate(String name, String lName) {
+//		Employee employee=new Employee();
+////		Predicate predicate =employee.getName().equals(name).and(employee.getSurName().equals(lName));
+//		return employee;
+//	}
+
+	public List<Employee> findBySpecification(String name, Long salary) {
+		return repository.findAll(salaryLessThan(salary).or(nameEqual(name)));
+	}
+	public List<Employee> findBySpecificationAndNameAndSalary(String name, Long salary) {
+		return repository.findAll(salaryLessThan(salary).and(nameEqual(name)));
+	}
+	
 
 }

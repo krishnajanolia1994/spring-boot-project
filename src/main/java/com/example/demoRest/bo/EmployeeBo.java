@@ -7,9 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 //import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,6 +159,56 @@ public class EmployeeBo {
 	}
 	public List<Employee> findBySpecificationAndNameAndSalary(String name, Long salary) {
 		return repository.findAll(salaryLessThan(salary).and(nameEqual(name)));
+	}
+	public List<Employee> findByCriteriaNameNull() {
+		CriteriaBuilder cb=entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> cq=cb.createQuery(Employee.class);
+		Root<Employee> root=cq.from(Employee.class);
+		cq.select(root);
+		cq.where(root.get("name").isNull());
+ 		return entityManager.createQuery(cq).getResultList();
+	}
+	public List<Employee> getByNameLNameByCriteria(String name, String lName) {
+		CriteriaBuilder cb=entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> cq=cb.createQuery(Employee.class);
+		Root<Employee> root=cq.from(Employee.class);
+		cq.select(root);
+		cq.where(cb.and(cb.equal(root.get("name"), name)));
+		cq.where(cb.and(cb.equal(root.get("surName"), lName)));
+ 		return entityManager.createQuery(cq).getResultList();
+	}
+	public List<Employee> getBySalaryLessThan(Long salary) {
+		CriteriaBuilder cb=entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> cq=cb.createQuery(Employee.class);
+		Root<Employee> root=cq.from(Employee.class);
+		cq.select(root);
+		cq.where(cb.lt(root.get("salary"), salary));
+ 		return entityManager.createQuery(cq).getResultList();
+	}
+	public List<Employee> getBySalaryBetweenCriteria(Long salary, Long salary1) {
+		CriteriaBuilder cb=entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> cq=cb.createQuery(Employee.class);
+		Root<Employee> root=cq.from(Employee.class);
+		cq.select(root);
+		cq.where(cb.between(root.get("salary"), salary, salary1));
+ 		return entityManager.createQuery(cq).getResultList();
+	}
+	public List<Employee> getByNameLikeCriteria(String name) {
+		CriteriaBuilder cb=entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> cq=cb.createQuery(Employee.class);
+		Root<Employee> root=cq.from(Employee.class);
+		cq.select(root);
+		cq.where(cb.like(root.get("name"), name));
+ 		return entityManager.createQuery(cq).getResultList();
+	}
+	public List<Employee> getByInCriteria() {
+		CriteriaBuilder cb=entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> cq=cb.createQuery(Employee.class);
+		Root<Employee> root=cq.from(Employee.class);
+		cq.select(root);
+		List<String> names=new ArrayList<>();
+		cq.where(root.get("name").in("krishna" ,"Snndeep"));
+ 		return entityManager.createQuery(cq).getResultList();
 	}
 	
 

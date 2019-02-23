@@ -91,6 +91,37 @@ public class Controller {
 		list=employeeBo.getByNameLName(name,LName);
 		return list;
 	}
+	@RequestMapping("get_by_name_and_last_name_by_criteria")
+	@GetMapping
+	public List<Employee> getByNameLNameByCriteria(@QueryParam("name") String name,@QueryParam("LName") String LName)
+	{
+		return employeeBo.getByNameLNameByCriteria(name,LName);
+	}
+	@RequestMapping("get_by_salary_less_than_by_criteria")
+	@GetMapping
+	public List<Employee> getBySalaryLessThan(@QueryParam("salary") Long salary)
+	{
+		return employeeBo.getBySalaryLessThan(salary);
+	}
+	@RequestMapping("get_by_salary_between_by_criteria")
+	@GetMapping
+	public List<Employee> getByBetween(@QueryParam("salary") Long salary,@QueryParam("salary1") Long salary1)
+	{
+		return employeeBo.getBySalaryBetweenCriteria(salary,salary1);
+	}
+	@RequestMapping("get_by_name_like_criteria")
+	@GetMapping
+	public List<Employee> getByBetween(@QueryParam("salary") Long salary,@QueryParam("name") String name)
+	{
+		return employeeBo.getByNameLikeCriteria(name+"%");
+	}
+	@RequestMapping("get_by_name_in_criteria")
+	@GetMapping
+	public List<Employee> getByBetween()
+	{
+		return employeeBo.getByInCriteria();
+	}
+	
 //	@RequestMapping("pradicate")
 //	@GetMapping
 //	public List<Employee> getPadicate(@QueryParam("name") String name,@QueryParam("LName") String LName)
@@ -179,6 +210,14 @@ public class Controller {
 	public List<Object> getByCriteria()
 	{
 		List<Object> projection=employeeBo.findByCriteria();
+		return projection;
+	}
+	
+	@RequestMapping("criteria_name_is_null")
+	@GetMapping
+	public List<Employee> getByCriteriaNameNull(@QueryParam("name") String name)
+	{
+		List<Employee> projection=employeeBo.findByCriteriaNameNull();
 		return projection;
 	}
 	@RequestMapping("specification")

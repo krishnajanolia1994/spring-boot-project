@@ -66,6 +66,18 @@ public class Controller {
 		return  employeeBo.getAll(Pageable);
 	}
 	
+	@RequestMapping("advanced/search")
+	@GetMapping
+	public List<Employee> getAllBySpecification(@QueryParam("fName") String fName,
+			@QueryParam("lName") String lName,
+			@QueryParam("salary") Long salary)
+	{
+
+		return  employeeBo.getAll(fName,lName,salary);
+	}
+	
+	
+	
 	@RequestMapping("/id")
 	@GetMapping
 	public Employee getById(@PathVariable  Long  id)

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -18,12 +19,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Component
-@NamedQuery(name="findByName1",query="select u from Employee u where name=?1")
+@NamedQuery(name="findByName2",query="select u from Employee2 u where name=?1")
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "EMPLOYEE2")
 @JsonPropertyOrder({ "id", "name", "surName", "employer", "manager", "salary" })
 
-public class Employee {
+public class Employee2 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty
@@ -34,6 +35,25 @@ public class Employee {
 	@Column(name = "NAME")
 	private String name;
 	
+	@OneToOne
+	private Employee employee;
+	
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public List<Children> getChildrens() {
+		return childrens;
+	}
+
+	public void setChildrens(List<Children> childrens) {
+		this.childrens = childrens;
+	}
+
 	@JsonProperty
 	@Column(name = "SUR_NAME")
 	private String surName;

@@ -1,6 +1,9 @@
 package com.example.demoRest.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 //import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.QueryParam;
@@ -10,6 +13,8 @@ import javax.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +38,7 @@ public class Controller {
 	{
 		return "hello world";
 	}
+	
 	@PostMapping
 	public Employee create(@RequestBody Employee employee)
 	{
@@ -60,10 +66,17 @@ public class Controller {
 	
 	@RequestMapping("/pageble")
 	@GetMapping
-	public Page<Employee> getAll(Pageable  Pageable)
+	public Page<Employee> getAll(Pageable  pageable)
+	{
+		return  employeeBo.getAll(pageable);
+	}
+	
+	@RequestMapping("/async")
+	@GetMapping
+	public List<Employee> getAllSyn()
 	{
 
-		return  employeeBo.getAll(Pageable);
+		return  (List<Employee>) employeeBo.getAllAsync();
 	}
 	
 	@RequestMapping("advanced/search")

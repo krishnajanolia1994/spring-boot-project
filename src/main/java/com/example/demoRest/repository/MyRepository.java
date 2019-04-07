@@ -2,7 +2,13 @@ package com.example.demoRest.repository;
 
 import java.util.List;
 
+import javax.persistence.LockModeType;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -30,6 +36,7 @@ public interface MyRepository extends CrudRepository<Employee, Long> , PagingAnd
 
 	List<Employee> findByNameStartingWithOrderBySalary(String firstName);
 
+	@Lock(LockModeType.READ)
 	List<Employee> findBySalary(Long salary);
 
 	
@@ -38,6 +45,7 @@ public interface MyRepository extends CrudRepository<Employee, Long> , PagingAnd
 	List<Employee> findBySurName(String lName);
 
 	List<MyProjction> findByNameOrSalary(String lName, Long salary);
+
 
 
 

@@ -3,6 +3,8 @@ package com.example.demoRest.bo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -12,11 +14,13 @@ import javax.persistence.criteria.Predicate;
 //import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.glassfish.jersey.server.BackgroundScheduler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.example.demoRest.entiy.Employee;
@@ -25,12 +29,13 @@ import com.example.demoRest.repository.MyRepository;
 import com.example.demoRest.repository.MySpecification;
 
 @Component
-public class EmployeeBo {
+public class EmployeeBo{
 	@Autowired
 	MyRepository repository;
 
 	@Autowired
 	EntityManager entityManager;
+	
 	
 	@SuppressWarnings("serial")
 	public static Specification<Employee> salaryLessThan(Long salary)
@@ -220,6 +225,38 @@ public class EmployeeBo {
 		}
 		return list;
 	}
+	public List<Employee> getAllAsync() {
+		ThreadPoolExecutor ScheduledThreadPoolExecutor=new ScheduledThreadPoolExecutor(10);
+		ScheduledThreadPoolExecutor.execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				getSum();
+			}
+		});
+		return (List<Employee>) repository.findAll();
+	}
+	
+	@Async
+	private void getSum() {
+		int sum=0;
+		int i=0;
+		if(i==1500) {
+			System.out.println(repository.findAll());
+		}
+		for(i=0;i<100;i++) {
+			sum+=i;
+			try {
+				Thread.sleep(1000);
+				System.out.println(sum);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(sum);
+	}
+	
 	
 
 }

@@ -253,6 +253,14 @@ public class Controller {
 		return employeeBo.findBySpecification(name, salary);
 	}
 	
+	@RequestMapping("getCriteriaAndPradicate")
+	@GetMapping
+	public Page<Object> getCriteriaAndPradicate(@QueryParam("name") String name,
+			@QueryParam("salary") Long salary, Pageable pageable)
+	{
+		return employeeBo.getCriteriaAndPradicate(name, salary,pageable);
+	}
+	
 	@RequestMapping("specification/and")
 	@GetMapping
 	public List<Employee> getBySpecificationNameAndSalary(@QueryParam("name") String name,

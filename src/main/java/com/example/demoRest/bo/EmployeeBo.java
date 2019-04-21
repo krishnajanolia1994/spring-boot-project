@@ -1,15 +1,18 @@
 package com.example.demoRest.bo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 //import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -18,7 +21,9 @@ import org.glassfish.jersey.server.BackgroundScheduler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -255,6 +260,33 @@ public class EmployeeBo{
 			}
 		}
 		System.out.println(sum);
+	}
+	@SuppressWarnings("unchecked")
+	public Page<Object> getCriteriaAndPradicate(String name, Long salary, Pageable pageable) {
+		CriteriaBuilder cb= entityManager.getCriteriaBuilder();
+		@SuppressWarnings("rawtypes")
+		CriteriaQuery criteriaQuery = cb.createQuery();
+		@SuppressWarnings("unchecked")
+		Root<Employee> root=criteriaQuery.from(Employee.class);
+		criteriaQuery.select(root);
+		Predicate predicate = cb.equal(root.get("name"), name);
+		Predicate predicate1 = cb.equal(root.get("salary"), salary);
+		cb.and(predicate,predicate1);
+		Iterator<Order> itr =pageable.getSort().iterator(); 
+		Order order = itr.next();
+		String propery =order.getProperty();
+		if(order.isAscending()) {
+			criteriaQuery.orderBy(cb.asc(root.get(propery)));
+		}
+		else if(order.isDescending()){
+			criteriaQuery.orderBy(cb.desc(root.get(propery)));
+
+		}
+		TypedQuery<Object> tq = entityManager.createQuery(criteriaQuery.select(root));
+		int totalrRecords = tq.getResultList().size();
+		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());
+		tq.setMaxResults(pageable.getPageSize());
+		return new PageImpl<>(tq.getResultList(), pageable, totalrRecords);
 	}
 	
 	

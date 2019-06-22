@@ -1,9 +1,6 @@
 package com.example.demoRest.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 //import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.QueryParam;
@@ -13,8 +10,6 @@ import javax.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,8 +65,8 @@ public class Controller {
 	{
 		return  employeeBo.getAll(pageable);
 	}
-	
-	@RequestMapping("/async")
+	 
+	@RequestMapping("/async" )
 	@GetMapping
 	public List<Employee> getAllSyn()
 	{

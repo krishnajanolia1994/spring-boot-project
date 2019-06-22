@@ -28,6 +28,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.example.demoRest.controller.ProductNotFound;
 import com.example.demoRest.entiy.Employee;
 import com.example.demoRest.projection.MyProjction;
 import com.example.demoRest.repository.MyRepository;
@@ -282,6 +283,14 @@ public class EmployeeBo{
 			criteriaQuery.orderBy(cb.desc(root.get(propery)));
 
 		}
+		
+		//to test custome error handling
+		if(true) {
+			throw new ProductNotFound();
+
+		}
+		
+		//
 		TypedQuery<Object> tq = entityManager.createQuery(criteriaQuery.select(root));
 		int totalrRecords = tq.getResultList().size();
 		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());

@@ -1,6 +1,8 @@
 package com.example.demoRest.bo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.example.demoRest.controller.ProductNotFound;
@@ -296,6 +299,14 @@ public class EmployeeBo{
 		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());
 		tq.setMaxResults(pageable.getPageSize());
 		return new PageImpl<>(tq.getResultList(), pageable, totalrRecords);
+	}
+	
+	@Scheduled(fixedRate=1000)
+	public void schedule() {
+		Date date =new Date();
+		Calendar cal =Calendar.getInstance();
+		cal.setTime(date);
+//		System.out.println(cal.get(Calendar.HOUR)+" "+cal.get(Calendar.MINUTE)+" ");
 	}
 	
 	
